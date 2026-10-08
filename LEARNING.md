@@ -28,3 +28,42 @@ I need to understand the problem, break it down, and then
 find the syntax required to implement my logic.
 
 I can solve problems from a blank file.
+
+
+## save memory.json 
+
+Problem : how do i save python memory permanently?
+
+Input:
+A Python dictionary containing memory.
+
+output:
+Updated memory.json file.
+
+step:
+1. Create save_memory(memory).
+
+2. Open memory.json in write mode.
+
+3. Convert the Python memory dictionary into JSON.
+
+4. Write the JSON data into memory.json.
+
+5. Call save_memory() only when our application
+   decides that a new memory should be stored.
+
+
+## updating the memory 
+
+Input:
+    existing memory
+    new important memory
+
+Output:
+    updated memory
+
+steps 
+1. if some covertion happend in  between the load and save memory we simply upadte the importent data into the file
+
+## Jev
+Jev is a decision model designed for structured decisions such as classification, yes/no judgments, routing, and scoring. It complements generative models rather than replacing them.
