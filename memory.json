@@ -1,1 +1,9 @@
-{"name": "Alok", "interest": "GenAI", "age": 21}
+{
+    "name": "Alok",
+    "interest": "GenAI",
+    "age": 21,
+    "career_goal": "Become a GenAI engineer",
+    "current_learning": [
+        "JavaScript"
+    ]
+}

@@ -67,3 +67,64 @@ steps
 
 ## Jev
 Jev is a decision model designed for structured decisions such as classification, yes/no judgments, routing, and scoring. It complements generative models rather than replacing them.
+
+
+## rough idea about ayu v0.1
+
+# Feature: Automatic Memory Detection
+
+## Problem
+
+Ayu currently has persistent memory, but new memories are manually defined.
+
+## Goal
+
+Automatically determine whether information from a conversation is worth storing as long-term memory.
+
+## First decision
+
+Is this information worth remembering?
+
+## Input
+
+Recent conversation
+
+## Output
+
+Yes / No
+
+## Decision model
+
+Jev
+
+## Flow
+
+Conversation
+    ↓
+Jev
+    ↓
+Worth remembering?
+    ↓
+Yes / No
+
+
+## Feature: Memory Decision
+
+### Function
+should_remember()
+
+### Input
+conversation
+
+### Output
+yes/no
+
+### Responsibility
+Decide whether the conversation contains information
+that is valuable enough to store as persistent user memory.
+
+### If YES
+Send the conversation to the memory extraction step.
+
+### If NO
+Continue the conversation without creating a memory.
