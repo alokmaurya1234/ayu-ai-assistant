@@ -1,7 +1,5 @@
-from openai import OpenAI
-
 from models.memory import MemoryDecision, ExtractedMemory
-from storage.json_memory import load_memory, save_memory
+from storage.json_memory import save_memory
 
 
 def should_remember(client, recent_conversation, latest_user_message):
@@ -71,36 +69,53 @@ def extract_memory(client, recent_conversation):
     return extracted.model_dump(exclude_none=True)
 
 
+
 def update_memory(existing_memory, new_memory):
-    updated_memory = existing_memory | new_memory
+    updated_memory = existing_memory.copy()
+
+    for key, new_value in new_memory.items():
+        old_value = updated_memory.get(key)
+
+        if isinstance(old_value, list) and isinstance(new_value, list):
+            updated_memory[key] = list(dict.fromkeys(old_value + new_value))
+        else:
+            updated_memory[key] = new_value
+
     return updated_memory
+
+
 
 
 
 def process_memory(client, memory, recent_conversation, latest_user_message):
-    should_save = should_remember(
-        client,
-        recent_conversation,
-        latest_user_message,
-    )
+    try:
+        should_save = should_remember(
+            client,
+            recent_conversation,
+            latest_user_message,
+        )
 
-    if not should_save:
+        if not should_save:
+            return memory
+
+        new_memory = extract_memory(client, recent_conversation)
+
+        new_memory = {
+            key: value
+            for key, value in new_memory.items()
+            if value not in (None, "", [], {})
+        }
+
+        if not new_memory:
+            print("No useful memories extracted.")
+            return memory
+
+        updated_memory = update_memory(memory, new_memory)
+        save_memory(updated_memory)
+
+        print("Memory updated successfully.")
+        return updated_memory
+
+    except Exception as error:
+        print(f"Memory processing failed: {error}")
         return memory
-
-    new_memory = extract_memory(client, recent_conversation)
-
-    new_memory = {
-        key: value
-        for key, value in new_memory.items()
-        if value not in (None, "", [], {})
-    }
-
-    if not new_memory:
-        print("No useful memories extracted.")
-        return memory
-
-    updated_memory = update_memory(memory, new_memory)
-    save_memory(updated_memory)
-
-    print("Memory updated successfully.")
-    return updated_memory

@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+
+from pydantic import BaseModel, Field
 
 
 class MemoryDecision(BaseModel):
@@ -7,7 +8,10 @@ class MemoryDecision(BaseModel):
 
 
 class ExtractedMemory(BaseModel):
+    name: str | None = None
+    age: int | None = None
+    interest: str | None = None
     career_goal: str | None = None
-    current_learning: list[str] = []
-    preferences: list[str] = []
-    ongoing_projects: list[str] = []
+    current_learning: list[str] = Field(default_factory=list)
+    preferences: list[str] = Field(default_factory=list)
+    ongoing_projects: list[str] = Field(default_factory=list)
