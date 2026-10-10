@@ -4,6 +4,7 @@
     "age": 21,
     "career_goal": "Become a GenAI engineer",
     "current_learning": [
-        "JavaScript"
+        "JavaScript",
+        "FastAPI"
     ]
 }
